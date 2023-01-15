@@ -12,8 +12,8 @@ export class FilmsController {
     @Query('title') title?: string,
   ): Promise<FilmsSearchResponseDTO> {
     try {
-      const titles = await this.filmsService.getFilmsTitles(title);
-      return { titles };
+      const results = await this.filmsService.getFilmsTitles(title);
+      return { results };
     } catch (error) {
       Logger.error(error);
       return error;

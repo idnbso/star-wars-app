@@ -3,6 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { HttpException } from '@nestjs/common/exceptions';
 import { map, catchError, lastValueFrom } from 'rxjs';
 import { CharactersService } from 'src/characters/characters.service';
+import { FilmSearchResult } from './film-search.result.dto';
 import { FilmDTO } from './film.dto';
 
 @Injectable()
@@ -19,13 +20,16 @@ export class FilmsService {
     };
   }
 
-  async getFilmsTitles(title?: string): Promise<string[]> {
+  async getFilmsTitles(title?: string): Promise<FilmSearchResult[]> {
     const query = title ? `?search=${title}` : '';
     const request = this.http
       .get(`${this.API_HOST}/films${query}`)
       .pipe(
         map(({ data: { results } }) => {
-          return results.map(({ title }) => title);
+          return results.map(({ title, url }) => ({
+            id: this.extractResourceIdFromURL(url),
+            title,
+          }));
         }),
       )
       .pipe(
@@ -54,7 +58,7 @@ export class FilmsService {
           };
 
           for (const field of Object.keys(this.expandableFieldsDataFactory)) {
-            if (expandFields.includes(field)) {
+            if (expandFields?.includes(field)) {
               const ids = data[field]?.map(this.extractResourceIdFromURL);
 
               if (!ids || !ids.length) {
