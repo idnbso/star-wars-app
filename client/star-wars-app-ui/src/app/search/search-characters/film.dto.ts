@@ -7,4 +7,5 @@ export interface FilmDTO {
   producer: string;
   releaseDate: string;
   characters: CharacterDTO[];
+  totalCharacters: number;
 }

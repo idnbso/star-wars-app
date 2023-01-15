@@ -9,7 +9,7 @@ export class CharactersService {
 
   constructor(private http: HttpService) {}
 
-  async getCharacters(ids?: string[]): Promise<any> {
+  async getCharacters(ids: string[]): Promise<any> {
     try {
       const requests = ids.map((id) =>
         this.http.get(`${this.API_HOST}/people/${id}`).pipe(

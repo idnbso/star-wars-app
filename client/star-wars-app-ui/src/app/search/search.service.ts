@@ -15,11 +15,21 @@ export class SearchService {
   async getFilmTitles(query: string): Promise<FilmsSearchResponseDTO> {
     const apiQuery = query ? `?title=${query}` : '';
     const request = this.http.get(`${this.API_HOST}/films${apiQuery}`);
+
     return await lastValueFrom<any>(request);
   }
 
-  async getFilm(id: number, expandFields?: string): Promise<FilmDTO> {
-    const query = expandFields ? `?expand=${expandFields}` : '';
+  async getFilm(
+    id: number,
+    skipRows: number,
+    pageRows: number,
+    expandFields?: string
+  ): Promise<FilmDTO> {
+    const paginationQuery = `skipRows=${skipRows}&pageRows=${pageRows}`;
+    const query = expandFields
+      ? `?expand=${expandFields}&${paginationQuery}`
+      : `?${paginationQuery}`;
+
     const request = this.http.get(`${this.API_HOST}/films/${id}${query}`);
     return await lastValueFrom<any>(request);
   }

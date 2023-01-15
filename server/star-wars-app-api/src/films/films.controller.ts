@@ -24,9 +24,11 @@ export class FilmsController {
   async getFilm(
     @Param('id') id: number,
     @Query('expand') expandFields?: string,
+    @Query('skipRows') skipRows?: number,
+    @Query('pageRows') pageRows?: number,
   ): Promise<FilmDTO> {
     try {
-      return this.filmsService.getFilm(id, expandFields);
+      return this.filmsService.getFilm(id, skipRows, pageRows, expandFields);
     } catch (error) {
       Logger.error(error);
       return error;

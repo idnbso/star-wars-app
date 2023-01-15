@@ -44,7 +44,12 @@ export class FilmsService {
     return await lastValueFrom(request);
   }
 
-  async getFilm(id: number, expandFields?: string): Promise<FilmDTO> {
+  async getFilm(
+    id: number,
+    skipRows?: number,
+    pageRows?: number,
+    expandFields?: string,
+  ): Promise<FilmDTO> {
     const request = this.http
       .get(`${this.API_HOST}/films/${id}`)
       .pipe(
@@ -59,13 +64,27 @@ export class FilmsService {
 
           for (const field of Object.keys(this.expandableFieldsDataFactory)) {
             if (expandFields?.includes(field)) {
-              const ids = data[field]?.map(this.extractResourceIdFromURL);
+              const totalIds = data[field]?.length;
+
+              if (!totalIds) {
+                return;
+              }
+
+              const ids = data[field]
+                .splice(skipRows, pageRows)
+                .map(this.extractResourceIdFromURL);
 
               if (!ids || !ids.length) {
                 return;
               }
 
-              film[field] = await this.expandableFieldsDataFactory[field](ids);
+              film[field] = await this.expandableFieldsDataFactory[field](
+                ids,
+                skipRows,
+                pageRows,
+              );
+              film[`total${field[0].toUpperCase()}${field.slice(1)}`] =
+                totalIds;
             }
           }
 

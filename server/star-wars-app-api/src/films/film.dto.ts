@@ -6,5 +6,7 @@ export interface FilmDTO {
   director: string;
   producer: string;
   releaseDate: string;
+
   characters?: CharacterDTO[];
+  totalCharacters?: number;
 }

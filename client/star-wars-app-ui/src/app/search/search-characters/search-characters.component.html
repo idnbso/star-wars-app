@@ -1,9 +1,9 @@
 <p-card
   header="Search Star Wars Films Characters"
-  class="card flex justify-content-center"
+  class="card flex justify-content-center mt-5"
 >
-  <div class="card-container flex justify-content-center">
-    <div>
+  <div class="card-container flex flex-column justify-content-center">
+    <div class="mb-5">
       <h5>Enter Film Title:</h5>
       <p-autoComplete
         [(ngModel)]="filmTitle"
@@ -16,9 +16,16 @@
     </div>
 
     <p-table
-      *ngIf="filmCharacters?.length"
-      [columns]="resultsTableColumns"
+      #filmCharactersTable
       [value]="filmCharacters"
+      [columns]="resultsTableColumns"
+      [lazy]="true"
+      dataKey="name"
+      (onLazyLoad)="loadCharacters($event)"
+      [paginator]="true"
+      [rows]="totalPageRows"
+      [loading]="loading"
+      [totalRecords]="totalCharacters"
     >
       <ng-template pTemplate="header" let-columns>
         <tr>
@@ -27,14 +34,14 @@
           </th>
         </tr>
       </ng-template>
-      <ng-template pTemplate="body" let-car let-columns="columns">
+      <ng-template pTemplate="body" let-character let-columns="columns">
         <tr>
           <td *ngFor="let col of columns">
-            {{ car[col.field] }}
+            {{ character[col.field] }}
           </td>
         </tr>
       </ng-template>
     </p-table>
   </div>
-  <ng-template pTemplate="footer">Made by Idan Busso 2023</ng-template>
+  <ng-template pTemplate="footer"><b>Made by Idan Busso (2023)</b></ng-template>
 </p-card>
