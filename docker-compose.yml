@@ -1,0 +1,22 @@
+version: "3"
+services:
+  server:
+    build:
+      context: ./server/star-wars-app-api
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    container_name: star-wars-app-api
+    volumes:
+      - ./server/star-wars-app-api:/usr/src/server/star-wars-app-api
+      - /usr/src/app/server/star-wars-app-api/node_modules
+  client:
+    build:
+      context: ./client/star-wars-app-ui
+      dockerfile: Dockerfile
+    ports:
+      - "4200:4200"
+    container_name: star-wars-app-ui
+    volumes:
+      - ./client/star-wars-app-ui:/usr/src/client/star-wars-app-ui
+      - /usr/src/app/client/star-wars-app-ui/node_modules

@@ -1,0 +1,6 @@
+{
+  "/api": {
+    "target": "http://star-wars-app-api:3000",
+    "secure": false
+  }
+}
