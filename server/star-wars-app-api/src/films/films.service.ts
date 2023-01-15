@@ -2,7 +2,7 @@ import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
 import { HttpException } from '@nestjs/common/exceptions';
 import { map, catchError, lastValueFrom } from 'rxjs';
-import { CharactersService } from 'src/characters/characters.service';
+import { CharactersService } from '../characters/characters.service';
 import { FilmSearchResult } from './film-search.result.dto';
 import { FilmDTO } from './film.dto';
 
