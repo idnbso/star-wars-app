@@ -16,7 +16,7 @@ export class FilmsService {
     private charactersService: CharactersService,
   ) {
     this.expandableFieldsDataFactory = {
-      characters: this.charactersService.getCharacters.bind(this),
+      characters: charactersService.getCharacters.bind(this),
     };
   }
 
